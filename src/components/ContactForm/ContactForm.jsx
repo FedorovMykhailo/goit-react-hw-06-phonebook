@@ -1,9 +1,26 @@
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from "redux/contactSlice";
+import { getContacts } from "redux/selectors";
 import css from "../ContactForm/ContactForm.module.css"
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
-const FormComponent = ({ submit }) => {     
+const FormComponent = () => {   
+    
+    const dispatch = useDispatch();
+    const contacts = useSelector(getContacts);
+
+    const handleFormSubmit = (evt) => {
+        evt.preventDefault()
+        const name = evt.currentTarget.elements.name.value;
+        const phone = evt.currentTarget.elements.number.value;
+        if (contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase()))
+            return alert(`${name.toLowerCase()} is already in contacts`)
+        dispatch(addContact({ "name": name, "number": phone }))
+        evt.currentTarget.reset()
+    } 
+
      return (
-         <form onSubmit={submit}>
+         <form onSubmit={handleFormSubmit}>
             <div className={css.formField}>
                 <label id="name">Name</label>
                 <input className={css.formInput}   
@@ -29,6 +46,6 @@ const FormComponent = ({ submit }) => {
 
   export default FormComponent
 
-FormComponent.propTypes = {
-    submit: PropTypes.func,
-}
+// FormComponent.propTypes = {
+//     submit: PropTypes.func,
+// }
