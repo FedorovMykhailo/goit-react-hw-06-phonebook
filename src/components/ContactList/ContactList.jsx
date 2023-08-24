@@ -13,7 +13,7 @@ const ContactList = () => {
     const filterValue = useSelector(getFilter);
     
     const filteredContacts = () => {
-        if (contacts.lenght === 0) return null
+       // if (contacts.lenght === 0) return null
         return contacts.filter(contact => contact.name.toLowerCase().includes(filterValue))
     }
 
